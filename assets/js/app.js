@@ -174,4 +174,112 @@ d3.csv("assets/data/covidCasesAndSettles.csv", function(error, covidData) {
 		});
 	};
 
-})
+});
+
+// Save data as variables
+// Y1 axis
+var tsa19 = ["null", "null", 2344518, 2337486, 2403202,2553997, 2564902, 2412129, 2217709, 2375796];
+// Y2 axis
+var tsa20 = ["null", "null", 1133532, 109567, 231156, 482727, 669057, 700260, 716275, 808139];
+// Y3 axis
+var hotel19 = [55, 62, 68, 68, 69, 74, 74, 71, "null", "null"];
+// Y4 axis
+var hotel20 = [55, 62, 39, 25, 33, 42, 47, 49, "null", "null"];
+// X axis
+var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"];
+
+// gets the canvas element by its class
+var ctx = document.getElementById("tsaChange");
+
+// creates the chart
+var myChart = new Chart(ctx, {
+  type: "line",
+  data: {
+    //   labels takes an array and makes it the x-axis
+    labels: month,
+    //   datasets takes an object with two properties
+    datasets: [
+      {
+        // string that is displayed at the top
+        label: "TSA-2019",
+        // array for the y-axis
+        data: tsa19,
+        backgroundColor: "rgba(158,202,225, 0.3)", // the fill color
+        borderColor: "rgba(158,202,225, 1)", // color of the line
+        borderWidth: 1,
+        yAxisID: "tsa",
+      },
+      {
+        label: "TSA-2020",
+        data: tsa20,
+        backgroundColor: "rgba(49,130,189, 0.4)",
+        borderColor: "rgba(49,130,189, 1",
+        borderWidth: 1,
+        yAxisID: "tsa",
+      },
+      {
+        label: "Hotels-2019",
+        data: hotel19,
+        backgroundColor: "rgba(252,146,114, 0.3)",
+        borderColor: "rgba(252,146,114, 1",
+        borderWidth: 1,
+        yAxisID: "hotels",
+      },
+      {
+        label: "Hotels-2020",
+        data: hotel20,
+        backgroundColor: "rgba(222,45,38, 0.4)",
+        borderColor: "rgba(222,45,38, 1",
+        borderWidth: 1,
+        yAxisID: "hotels",
+      },
+    ],
+  },
+  options: {
+    scales: {
+      yAxes: [
+        {
+          id: "tsa",
+          ticks: {
+            max: 3000000,
+            min: 0,
+            stepSize: 250000,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "TSA Average Number of Passengers",
+            fontStyle: "bold",
+          },
+        },
+        {
+          id: "hotels",
+          position: "right",
+          ticks: {
+            max: 80,
+            min: 20,
+            stepSize: 5,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "Hotel Occupancy Rate",
+            fontStyle: "bold",
+          },
+        },
+      ],
+      xAxes: [
+        {
+          display: true,
+          ticks: {
+            callback: function (dataLabel, index) {
+              return index % 2 === 0 ? dataLabel : "";
+            },
+          },
+        },
+      ],
+    },
+    title: {
+      display: true,
+      text: "Year Over Year Change (2019-2020)",
+    },
+  },
+});
